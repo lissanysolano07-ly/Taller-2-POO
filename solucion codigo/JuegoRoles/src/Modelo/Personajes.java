@@ -1,9 +1,5 @@
 package Modelo;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 public abstract class Personajes {
 
     protected String nombre;
@@ -12,7 +8,8 @@ public abstract class Personajes {
     protected int nivel;
     protected int ataque;
     protected int defensa;
-    protected List<EstadoAlterado> estados = new ArrayList<>();
+    protected Arma arma;
+    protected Armadura armadura;
 
     public Personajes(String nombre, int vida, int nivel, int ataque, int defensa) {
         this.nombre = nombre;
@@ -24,7 +21,7 @@ public abstract class Personajes {
     }
 
     public abstract int atacar();
-      public int calcularAtaque(){
+    public int calcularAtaque(){
 
     int total = ataque;
 
@@ -44,7 +41,6 @@ public int calcularDefensa(){
 
     return total;
 }
-
     public void defender(int danio) {
 
         int danioRecibido = danio - calcularDefensa();
@@ -60,54 +56,25 @@ public int calcularDefensa(){
         }
     }
 
-    public void recibirDanoDirecto(int dano) {
-        vida -= dano;
-        if (vida < 0) vida = 0;
-    }
-
-    public void modificarAtaque(int cantidad) {
-        ataque += cantidad;
-    }
-
-    public void agregarEstado(EstadoAlterado estado) {
-        estados.add(estado);
-        System.out.println("  >> " + nombre + " recibe el estado: " + estado.getNombre());
-    }
-
-    public void aplicarEstados() {
-        Iterator<EstadoAlterado> it = estados.iterator();
-        while (it.hasNext()) {
-            EstadoAlterado estado = it.next();
-            estado.aplicar(this);
-            if (estado.haTerminado()) {
-                System.out.println("  >> Estado [" + estado.getNombre() + "] ha expirado en " + nombre);
-                it.remove();
-            }
-        }
-    }
-
-    public boolean estaCongelado() {
-        for (EstadoAlterado e : estados) {
-            if (e instanceof Congelado && ((Congelado) e).estaActivo()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void subirNivel() {
+
         nivel++;
         ataque += 5;
         defensa += 3;
     }
 
     public void restaurarVida() {
+
         vida = vidaBase + ((nivel - 1) * 20);
-        estados.clear();
     }
     public void equiparArma(Arma arma){
     this.arma = arma;
     }
+
+    public void equiparArmadura(Armadura armadura){
+        this.armadura = armadura;
+    }
+
     public boolean estaVivo() {
         return vida > 0;
     }
@@ -124,7 +91,7 @@ public int calcularDefensa(){
         return nivel;
     }
 
-     @Override
+   @Override
 public String toString() {
 
     String nombreArma;

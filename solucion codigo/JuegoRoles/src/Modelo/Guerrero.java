@@ -8,6 +8,7 @@ public class Guerrero extends Personajes{
         super(nombre, vida, nivel, ataque, defensa);
         this.fuerza = fuerza;
     }
+
 @Override
 public int atacar() {
     

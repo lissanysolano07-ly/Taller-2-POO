@@ -63,7 +63,6 @@ public class Principal {
                 p2 = new Arquero(18, "Arquero", 90, 1, 14, 9);
                 break;
         }
-
         Arma espada = new Arma("Espada Legendaria", 10);
         Armadura escudo = new Armadura("Escudo Real", 5);
 
@@ -72,7 +71,6 @@ public class Principal {
         juegoroles1 combate = new juegoroles1();
 
         int continuar;
-
 
         do {
 

@@ -7,9 +7,9 @@ public class Mago extends Personajes{
         super(nombre, vida, nivel, ataque, defensa);
         this.magia = magia;
     }
-    @Override
+        @Override
     public int atacar() {
-        return calcularAtaque()+ magia;
+        return calcularAtaque() + magia;
     }
     @Override
     public String toString() {

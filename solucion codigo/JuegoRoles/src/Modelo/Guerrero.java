@@ -9,11 +9,11 @@ public class Guerrero extends Personajes{
         this.fuerza = fuerza;
     }
 
-    @Override
-    public int atacar() {
-        return ataque + fuerza;
-    }
-
+@Override
+public int atacar() {
+    
+    return calcularAtaque() + fuerza;
+}
     @Override
     public String toString() {
         return "\nGuerrero" +super.toString() +"\nFuerza: " + fuerza;

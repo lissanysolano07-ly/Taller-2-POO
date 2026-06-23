@@ -10,9 +10,8 @@ public class Arquero extends  Personajes{
 
     @Override
     public int atacar() {
-        return ataque + precision;
+        return calcularAtaque() + precision;
     }
-
     @Override
     public String toString() {
         return "\nArquero" +super.toString() + "\nPrecision: " + precision;

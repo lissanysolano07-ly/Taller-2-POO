@@ -8,6 +8,8 @@ public abstract class Personajes {
     protected int nivel;
     protected int ataque;
     protected int defensa;
+    protected Arma arma;
+    protected Armadura armadura;
 
     public Personajes(String nombre, int vida, int nivel, int ataque, int defensa) {
         this.nombre = nombre;
@@ -19,10 +21,29 @@ public abstract class Personajes {
     }
 
     public abstract int atacar();
+    public int calcularAtaque(){
 
+    int total = ataque;
+
+    if(arma != null){
+        total += arma.getBonoAtaque();
+    }
+
+    return total;
+}
+public int calcularDefensa(){
+
+    int total = defensa;
+
+    if(armadura != null){
+        total += armadura.getBonoDefensa();
+    }
+
+    return total;
+}
     public void defender(int danio) {
 
-        int danioRecibido = danio - defensa;
+        int danioRecibido = danio - calcularDefensa();
 
         if (danioRecibido < 0) {
             danioRecibido = 0;
@@ -46,6 +67,13 @@ public abstract class Personajes {
 
         vida = vidaBase + ((nivel - 1) * 20);
     }
+    public void equiparArma(Arma arma){
+    this.arma = arma;
+    }
+
+    public void equiparArmadura(Armadura armadura){
+        this.armadura = armadura;
+    }
 
     public boolean estaVivo() {
         return vida > 0;
@@ -63,10 +91,30 @@ public abstract class Personajes {
         return nivel;
     }
 
-    @Override
-    public String toString() {
+   @Override
+public String toString() {
 
-        return "\nNombre: " + nombre+ "\nVida: " + vida + "\nNivel: " + nivel
-                + "\nAtaque: " + ataque + "\nDefensa: " + defensa;
+    String nombreArma;
+    String nombreArmadura;
+
+    if (arma != null) {
+        nombreArma = arma.toString();
+    } else {
+        nombreArma = "Sin arma";
     }
+
+    if (armadura != null) {
+        nombreArmadura = armadura.toString();
+    } else {
+        nombreArmadura = "Sin armadura";
+    }
+
+    return "\nNombre: " + nombre
+            + "\nVida: " + vida
+            + "\nNivel: " + nivel
+            + "\nAtaque: " + calcularAtaque()
+            + "\nDefensa: " + calcularDefensa()
+            + "\nArma: " + nombreArma
+            + "\nArmadura: " + nombreArmadura;
+}
 }

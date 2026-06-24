@@ -1,5 +1,7 @@
 package Modelo;
-
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 public abstract class Personajes {
 
     protected String nombre;
@@ -10,6 +12,7 @@ public abstract class Personajes {
     protected int defensa;
     protected Arma arma;
     protected Armadura armadura;
+    protected List<EstadoAlterado> estados = new ArrayList<>();
 
     public Personajes(String nombre, int vida, int nivel, int ataque, int defensa) {
         this.nombre = nombre;
@@ -54,6 +57,39 @@ public int calcularDefensa(){
         if (vida < 0) {
             vida = 0;
         }
+    }
+    public void recibirDanoDirecto(int dano) {
+        vida -= dano;
+        if (vida < 0) vida = 0;
+    }
+public void modificarAtaque(int cantidad) {
+        ataque += cantidad;
+    }
+
+    public void agregarEstado(EstadoAlterado estado) {
+        estados.add(estado);
+        System.out.println("  >> " + nombre + " recibe el estado: " + estado.getNombre());
+    }
+
+    public void aplicarEstados() {
+        Iterator<EstadoAlterado> it = estados.iterator();
+        while (it.hasNext()) {
+            EstadoAlterado estado = it.next();
+            estado.aplicar(this);
+            if (estado.haTerminado()) {
+                System.out.println("  >> Estado [" + estado.getNombre() + "] ha expirado en " + nombre);
+                it.remove();
+            }
+        }
+    }
+
+    public boolean estaCongelado() {
+        for (EstadoAlterado e : estados) {
+            if (e instanceof Congelado && ((Congelado) e).estaActivo()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void subirNivel() {
